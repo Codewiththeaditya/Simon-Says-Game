@@ -70,14 +70,17 @@ function disableButtons(){
 
 
 function winChecker(){
+    let win = false;
     for(pattern of winPattern){
         if(pattern.every(val => user1.includes(val))){
+            win  = true;
             h1.innerText = "User-1 Won !";
             console.log("User-1 win");
             flag =0;
             disableButtons();
  
         }else if (pattern.every(val => user2.includes(val))){
+            win = true;
             h1.innerText = "User-2 Won";
             console.log("User-2 win");
             flag = 0;
@@ -85,9 +88,11 @@ function winChecker(){
         }
     }
 
-    if (user1.length + user2.length === 9){
+    if (user1.length + user2.length === 9 && !win){
         h1.innerText = "Draw";
     }
+
+   
 }
 
 function reset(){
