@@ -1,5 +1,8 @@
-let btns = document.querySelectorAll("button");
+let btns = document.querySelectorAll(".btn");
 let h1 = document.querySelector("h1");
+let resetbtn = document.querySelector(".resetbtn");
+
+let trackPlayer = document.querySelectorAll(".playertrack");
 
 let user1Chance = true;
 let user2Chance =false;
@@ -19,9 +22,7 @@ let winPattern =[
 ]
 
 
-
-btns.forEach((btn)=>{
-    btn.addEventListener("click",()=>{
+function mainLogic(btn){
         if(user1Chance){
             user2Chance = true;            //Chance toogle
             user1Chance = false;
@@ -30,7 +31,6 @@ btns.forEach((btn)=>{
             btn.classList.add("player-x");
             btn.disabled = true;
             winChecker();
-            return;
         }else{
             user2Chance = false;       //toggle
             user1Chance = true;
@@ -43,8 +43,24 @@ btns.forEach((btn)=>{
             return;
         }
         console.log(user1,user2);
-    })
-});
+}
+
+
+
+btns.forEach((btn)=>{
+    btn.addEventListener("click",(event)=>{
+        mainLogic(event.target);
+    });
+})
+
+document.addEventListener("keydown",(event)=>{
+        btns.forEach((btn) => {
+            if(btn.id == event.key && !btn.disabled){
+                mainLogic(btn)
+            }
+        })
+    });
+
 
 function disableButtons(){
     btns.forEach(btn => {
@@ -60,7 +76,7 @@ function winChecker(){
             console.log("User-1 win");
             flag =0;
             disableButtons();
-
+ 
         }else if (pattern.every(val => user2.includes(val))){
             h1.innerText = "User-2 Won";
             console.log("User-2 win");
@@ -68,4 +84,52 @@ function winChecker(){
             disableButtons();
         }
     }
+
+    if (user1.length + user2.length === 9){
+        h1.innerText = "Draw";
+    }
 }
+
+function reset(){
+    user1 = [];
+    user2 =[];
+    let i =0;
+
+    user1Chance = true;
+    user2Chance = false;
+
+    btns.forEach(btn=>{
+        btn.innerText = `${i}`;
+        i++;
+        btn.classList.remove("player-x");
+        btn.classList.remove("player-o");
+        btn.disabled = false;
+    })
+
+    h1.innerText = "Tic-Tac-XO";
+}
+
+
+resetbtn.addEventListener("click",()=>{
+    reset();
+})
+
+document.addEventListener("keydown",(e)=>{
+    if(e.key == 'Backspace'){
+        reset();
+    }
+})
+
+
+// function trackKey(){
+//     trackPlayer.forEach((player)=>{
+//             if (user1Chance && player.id === "x") {
+//             player.classList.add("player-xTracker");
+//             player.classList.remove("player-oTracker");
+//         } else if (user2Chance && player.id === "y") {
+//             player.classList.add("player-oTracker");
+//             player.classList.remove("player-xTracker");
+//         }
+//     })
+// }
+

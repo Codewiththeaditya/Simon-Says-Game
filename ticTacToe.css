@@ -25,7 +25,7 @@ button{
     cursor: pointer;   
 }
 
-.reset{
+.resetbtn{
     width: 160px;
     height: 80px;
     background-color: rgb(243, 68, 68);
